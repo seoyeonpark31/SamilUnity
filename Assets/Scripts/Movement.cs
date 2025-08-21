@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [SerializeField] float mainThrust = 100f;
+    [SerializeField] float rotationThrust = 100f;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -23,7 +22,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(1, 1, 1);
+            rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
         }
     }
 
@@ -31,12 +30,17 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("왼쪽");
+            ApplyRotation(rotationThrust);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("오른쪽");
+            ApplyRotation(-rotationThrust);
         }    
+    }
+
+    private void ApplyRotation(float rotationThrust)
+    {
+        transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
     }
 }
